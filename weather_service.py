@@ -34,6 +34,23 @@ def generate_weather_data():
 
     return weather_data
 
+def get_weather_data(city=None):
+    """Return weather data for all cities or one selected city."""
+    data = generate_weather_data()
+
+    if city is None:
+        return data
+
+    matches = [
+        weather for weather in data
+        if weather["city"].lower() == city.lower()
+    ]
+
+    if not matches:
+        raise ValueError(f"City '{city}' was not found.")
+
+    return matches
+
 
 def weather_to_json(weather_data):
     """Convert weather data to JSON format."""
@@ -67,3 +84,4 @@ if __name__ == "__main__":
 
     print(weather_to_json(data))
     print(weather_to_xml(data))
+    print(weather_to_json(get_weather_data("Nairobi"))) 
